@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SwiperCore, { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import imgApi from "../../../utils/api/imgApi";
 
 // import 'swiper/swiper-bundle.css';
 // import 'swiper/swiper.scss';
@@ -32,9 +33,9 @@ function WriteSwiper({ carouselImg }) {
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
                 style={{
-                  background: `url(${
-                    "http://localhost:8080/api/image?path=" + img.photoPath
-                  }) center center/cover no-repeat`,
+                  background: `url(${imgApi(
+                    img.photoPath
+                  )}) center center/cover no-repeat`,
                 }}
               />
             );

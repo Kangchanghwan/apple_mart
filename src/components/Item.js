@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 import priceCommaFunc from "../utils/priceCommaFunc";
+import axios from "axios";
+import imgApi from "../utils/api/imgApi";
 
 const ItemImgBox = styled.div`
   margin: 1rem;
@@ -30,11 +32,7 @@ const Item = ({ item }) => {
   return (
     <>
       <ItemImgBox>
-        <img
-          className="product-image"
-          src={"http://localhost:8080/api/image?path=" + img}
-          alt="Product image"
-        />
+        <img className="product-image" src={imgApi(img)} alt="Product image" />
         {isEnd && <EndProduct>판매완료</EndProduct>}
         <TextBox>
           <p

@@ -32,6 +32,7 @@ import axios from "axios";
 import priceCommaFunc from "../utils/priceCommaFunc";
 import statusSwitchFunc from "../utils/statusSwitchFunc";
 import styled from "styled-components";
+import imgApi from "../utils/api/imgApi";
 
 const ExitBtn = styled.div`
   font-size: 15px;
@@ -339,6 +340,13 @@ const ChatRoom = () => {
 
   //나가기 버튼 클릭
   const ExitBtnOnclick = async () => {
+    if (
+      !window.confirm(
+        "방을 정말 나가시겠습니까?(대화내역은 삭제되지 않습니다.)"
+      )
+    ) {
+      return;
+    }
     const r = doc(dbService, "chatroom", chattingObj.chatRoomId);
     const docRef = await getDoc(r);
     const docData = docRef.data();
@@ -386,10 +394,8 @@ const ChatRoom = () => {
               className={styles.productPhoto}
               src={
                 chattingObj.productPhoto
-                  ? "http://localhost:8080/api/image?path=" +
-                      chattingObj.productPhoto.photoPath ||
-                    "http://localhost:8080/api/image?path=" +
-                      chattingObj.productPhoto
+                  ? imgApi(chattingObj.productPhoto.photoPath) ||
+                    imgApi(chattingObj.productPhoto)
                   : require("../icon/applelogo.png")
               }
               width="50px"
@@ -413,7 +419,13 @@ const ChatRoom = () => {
           <div>
             {chattingObj.owner === userObj.uid && chattingObj.status !== "END" && (
               <button
-                onClick={() => setModalIsOpen(true)}
+                onClick={() => {
+                  if (chats.length > 0) {
+                    setModalIsOpen(true);
+                  } else {
+                    alert("먼저 대화를 시작해 주세요.");
+                  }
+                }}
                 className={styles.tradeButton}
               >
                 거래하기

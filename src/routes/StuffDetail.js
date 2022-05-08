@@ -95,11 +95,12 @@ function StuffDetail() {
             creatorId: resultObj.creatorId,
             //
             view: resultObj.view,
-            like: 10,
+            like: resultObj.like,
             title: resultObj.title,
             price: resultObj.price,
             content: resultObj.content,
             //
+            isLike: resultObj.booleanLike,
             region: resultObj.region,
             tags: resultObj.tags,
             owner: resultObj.owner,
@@ -135,6 +136,7 @@ function StuffDetail() {
     like,
     status,
     owner,
+    isLike,
   } = stuff.data;
   const stateData = {
     title,
@@ -211,6 +213,8 @@ function StuffDetail() {
                 isOwner={owner}
                 chattingObj={chattingObj}
                 isLogin={userObj}
+                no={id}
+                isLike={isLike}
               />
             </StuffDetailWrap>
           </Container>

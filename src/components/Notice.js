@@ -8,6 +8,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { dbService } from "../utils/api/fbInstance";
+import imgApi from "../utils/api/imgApi";
 
 const Notice = ({ chatObj, isOwner, userObj }) => {
   const createdTime = new Date(chatObj.createdAt);
@@ -38,8 +39,7 @@ const Notice = ({ chatObj, isOwner, userObj }) => {
     <div className={styles.bubbleContainer}>
       <>
         <div className={styles.bubbleWrapper}>
-          <div className={styles.inlineContainer}>
-          </div>
+          <div className={styles.inlineContainer}></div>
           <div
             className={
               isOwner ? styles.inlineContainerOwn : styles.inlineContainer
@@ -48,10 +48,10 @@ const Notice = ({ chatObj, isOwner, userObj }) => {
             <div className={isOwner ? styles.ownBubble : styles.otherBubble}>
               <div>
                 {chatObj.attachmentUrl && (
-                  <a href={chatObj.attachmentUrl}>
+                  <a href={imgApi(chatObj.attachmentUrl)}>
                     <img
                       className={styles.clipPhoto}
-                      src={chatObj.attachmentUrl}
+                      src={imgApi(chatObj.attachmentUrl)}
                       alt=""
                     />
                   </a>

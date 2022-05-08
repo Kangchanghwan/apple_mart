@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import * as PropTypes from "prop-types";
 import { returnTime } from "../write/commonFunc";
+import imgApi from "../../../utils/api/imgApi";
 
 const Chat = styled.li`
   padding: 16px 0;
@@ -147,10 +148,8 @@ const ChatItem = ({ userObj, chatObj }) => {
         <ItemImg
           src={
             chattingObj.productPhoto
-              ? "http://localhost:8080/api/image?path=" +
-                  chattingObj.productPhoto.photoPath ||
-                "http://localhost:8080/api/image?path=" +
-                  chattingObj.productPhoto
+              ? imgApi(chattingObj.productPhoto.photoPath) ||
+                imgApi(chattingObj.productPhoto)
               : require("../../../icon/applelogo.png")
           }
           alt="profile"

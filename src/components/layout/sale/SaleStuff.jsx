@@ -10,7 +10,9 @@ import { dbService } from "../../../utils/api/fbInstance";
 import likeIconOn from "../../../images/ico/ico_like.png";
 import likeIconOff from "../../../images/ico/ico_like_count.png";
 import * as PropTypes from "prop-types";
-import WritePrice from "../write/WritePrice";
+import axios from "axios";
+import priceCommaFunc from "../../../utils/priceCommaFunc";
+import imgApi from "../../../utils/api/imgApi";
 
 const StuffContentWrap = styled.div`
   display: flex;
@@ -111,25 +113,53 @@ const EndTag = styled.span`
 `;
 
 EndTag.propTypes = { children: PropTypes.node };
-function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
+
+function SaleStuff({
+  thumb,
+  matter,
+  time,
+  no,
+  region,
+  page,
+  like,
+  status,
+  render,
+  reset,
+}) {
   const [toggle, setToggle] = useState(false);
-  const isEnd = status;
+  const isEnd = status === "END";
   const { price, title } = matter;
   const queryElement = { no };
-  const queryMatter = Object.entries(queryElement)
-    .map((e) => e.join("="))
-    .join("&");
-  const priceComma = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const onChange = async () => {
+    await axios
+      .post("/likePost/" + no)
+      .then(() => {
+        setToggleIcon((state) => !state);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  };
+
   const onDelete = async () => {
     // eslint-disable-next-line no-restricted-globals
     const del = confirm("정말로 이 상품을 삭제하시겠습니까?");
     if (del) {
-      await dbService.doc(`stuffList/${no}`).delete();
+      axios
+        .delete("/items/" + no)
+        .then(() => {
+          render(!reset);
+          setToggle(false);
+        })
+        .catch((reason) => {
+          console.log(reason);
+        });
     }
   };
   const [toggleIcon, setToggleIcon] = useState(like);
   return (
-    <StuffContentWrap thumb={thumb}>
+    <StuffContentWrap thumb={imgApi(thumb)}>
       <Link to={"/items/" + no}>
         <div />
       </Link>
@@ -139,10 +169,7 @@ function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
           {page && (page === "like" || page === "sale") ? (
             page === "like" ? (
               <LikeBx color={toggleIcon ? "on" : "off"}>
-                <button
-                  type="button"
-                  onClick={() => setToggleIcon(!toggleIcon)}
-                >
+                <button type="button" onClick={onChange}>
                   {}
                 </button>
               </LikeBx>
@@ -160,12 +187,11 @@ function SaleStuff({ no, matter, thumb, time, region, page, like, status }) {
         </DateLocation>
 
         <PriceTag>
-          {priceComma && `${priceComma}`}원{isEnd && <EndTag>판매완료</EndTag>}
+          {price && priceCommaFunc(price)}원{isEnd && <EndTag>판매완료</EndTag>}
         </PriceTag>
         {page && (page === "like" || page === "sale") ? (
           <MoreBtnWrap toggle={toggle}>
             <MoreBtn onClick={onDelete}>삭제</MoreBtn>
-            <MoreBtn onClick={onDelete}>숨기기</MoreBtn>
           </MoreBtnWrap>
         ) : (
           ""

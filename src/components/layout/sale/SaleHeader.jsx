@@ -73,9 +73,6 @@ function SaleHeader({ history, tab, onClick }) {
         <TabItem tab={tab}>
           <TabBtn onClick={() => onClick(2)}>거래완료</TabBtn>
         </TabItem>
-        <TabItem tab={tab}>
-          <TabBtn onClick={() => onClick(3)}>숨김</TabBtn>
-        </TabItem>
       </TabMenu>
     </SaleHeaderWrap>
   );

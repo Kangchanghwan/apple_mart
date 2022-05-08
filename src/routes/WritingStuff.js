@@ -71,7 +71,10 @@ const WritingStuff = ({ tags, tagsState }) => {
       setLoading(false);
       return alert("글 내용을 최소 세 글자 이상 작성해 주세요");
     }
-
+    if (tags.length < 1) {
+      setLoading(false);
+      return alert("태그를 하나 이상 입력해 주세요");
+    }
     setInputs({ title: "", price: "", contents: "" });
     setAttachment([]);
     setLoading(false);

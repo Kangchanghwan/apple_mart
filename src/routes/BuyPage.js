@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Inner } from "../components/layout/Inner";
@@ -11,6 +11,7 @@ import { MobileInner } from "../components/common/MobileInner";
 import BuyHeader from "../components/layout/buy/BuyHeader";
 import BuyBtnList from "../components/layout/buy/BuyBtnList";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const SaleWrap = styled.div`
   display: block;
@@ -27,6 +28,7 @@ const SaleInner = styled(Inner)`
 
 const BuyPage = () => {
   const [tab, setTab] = useState(1);
+  const [item, setItem] = useState([]);
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
@@ -46,6 +48,16 @@ const BuyPage = () => {
     review: "content",
   };
 
+  useEffect(() => {
+    axios
+      .get("/buy")
+      .then((result) => {
+        setItem(result.data.data);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
+  }, []);
   return (
     <MobileContainer>
       <MobileInner>
@@ -53,8 +65,17 @@ const BuyPage = () => {
           <BuyHeader history={history} />
           <DepthInner>
             {tab === 1 &&
-              itemOfJson.map((item, i) => {
-                const { region_name, img_src, title, content, price } = item;
+              item.map((item, i) => {
+                const {
+                  region,
+                  img,
+                  title,
+                  content,
+                  price,
+                  reviewId,
+                  tradeHistoryId,
+                  afterDate,
+                } = item;
                 if (i > 10) {
                   return;
                 }
@@ -64,20 +85,23 @@ const BuyPage = () => {
                     <SaleInner>
                       <SaleStuff
                         no={1}
-                        thumb={img_src}
+                        thumb={img}
                         matter={{
                           title: title,
                           content: content,
                           price: price,
                         }}
-                        time={new Date().getTime()}
+                        time={afterDate}
                         creatorId={userObj.uid}
-                        region={region_name}
+                        region={region}
                         page="buy"
                         status="end"
                       />
                     </SaleInner>
-                    <BuyBtnList id={i} />
+                    <BuyBtnList
+                      reviewId={reviewId}
+                      tradeHistoryId={tradeHistoryId}
+                    />
                   </div>
                 );
               })}

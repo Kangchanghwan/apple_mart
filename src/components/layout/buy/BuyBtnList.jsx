@@ -16,14 +16,22 @@ const ChangeBtn = styled.div`
   border: 1px solid #d7d7d7;
 `;
 
-function BuyBtnList({ id }) {
+function BuyBtnList({ reviewId, tradeHistoryId }) {
   return (
     <>
-      <Link to={"/review/" + id}>
-        <ChangeBtnGroup>
-          <ChangeBtn>내가 쓴 리뷰보기</ChangeBtn>
-        </ChangeBtnGroup>
-      </Link>
+      {reviewId ? (
+        <Link to={"/review/" + reviewId}>
+          <ChangeBtnGroup>
+            <ChangeBtn>내가 쓴 리뷰보기</ChangeBtn>
+          </ChangeBtnGroup>
+        </Link>
+      ) : (
+        <Link to={"/writeReview/" + tradeHistoryId}>
+          <ChangeBtnGroup>
+            <ChangeBtn>리뷰 쓰러 가기</ChangeBtn>
+          </ChangeBtnGroup>
+        </Link>
+      )}
     </>
   );
 }
