@@ -21,6 +21,7 @@ import styled from "styled-components";
 import { setNeighbor } from "../modules/neighbor";
 import axios from "axios";
 import { forEach } from "react-bootstrap/ElementChildren";
+import imgApi from "../utils/api/imgApi";
 
 const TagArea = styled.div`
   width: 100%;
@@ -50,9 +51,7 @@ const EditingStuff = () => {
   }
   const tags = state.tags;
   const [attachment, setAttachment] = useState(
-    state.photoList.map(
-      (e) => "http://localhost:8080/api/image?path=" + e.photoPath
-    )
+    state.photoList.map((e) => imgApi(e.photoPath))
     // state.photoList.map((e) => {
     //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
     //   fetch(url)

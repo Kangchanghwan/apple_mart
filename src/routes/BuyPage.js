@@ -67,6 +67,7 @@ const BuyPage = () => {
             {tab === 1 &&
               item.map((item, i) => {
                 const {
+                  id,
                   region,
                   img,
                   title,
@@ -84,7 +85,7 @@ const BuyPage = () => {
                   <div key={i}>
                     <SaleInner>
                       <SaleStuff
-                        no={1}
+                        no={id}
                         thumb={img}
                         matter={{
                           title: title,

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PhotoPreview from "../../common/PhotoPreview";
 import camera from "../../../images/ico/ico_camera.png";
+import imgApi from "../../../utils/api/imgApi";
 
 const PhotoWrap = styled.div`
   display: flex;
