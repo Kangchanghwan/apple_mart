@@ -53,14 +53,6 @@ const EditingStuff = () => {
     state.photoList.map(
       (e) => "http://localhost:8080/api/image?path=" + e.photoPath
     )
-    // state.photoList.map((e) => {
-    //   let url = "http://localhost:8080/api/image?path=" + e.photoPath;
-    //   fetch(url)
-    //       .then(res => res.blob())
-    //       .then(blob => {
-    //         console.log(blob)
-    //       })
-    // })
   );
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
@@ -76,26 +68,11 @@ const EditingStuff = () => {
   }, [attachment]);
 
   const geolocation = getLocation();
-  // if (state.tags) {
-  //   state.tags.map((e) => tagsState(e));
-  // }
   if (userObj.uid === undefined) {
     alert("로그인을 하지않은 상태입니다. 로그인을 해주세요.");
     history("/auth");
     return <p>로그인을 하지않은 상태입니다. 로그인을 해주세요.</p>;
   }
-  // fetch("http://localhost:8080/api/image?path=images/63c7c268-d18f-4e21-b8f1-f9029a6fbe3f.jpg")
-  //     .then(res => res.blob())
-  //     .then(blob => {
-  //       console.log(blob)
-  //     })
-  // attachment.forEach((attachment) => {
-  //   if (attachment.includes("http")) {
-  //     fetch(attachment)
-  //         .then(res => res.blob())
-  //         .then(blob => console.log(blob))
-  //   }
-  // })
   const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -126,35 +103,6 @@ const EditingStuff = () => {
       content: contents,
       town: region,
     };
-    // attachment.forEach((attachment) => {
-    //   if (attachment.includes("http")) {
-    //     let blob = fetch(attachment).then(res => {return res.blob()})
-    //     let promise = new Promise(async (resolve, _) => {
-    //         const reader = new FileReader();
-    //         reader.onloadend = () => resolve(reader.result);
-    //         reader.readAsDataURL(await blob);
-    //     });
-
-    // let getData = () => {
-    // promise.then((result) => {
-    //   console.log("ehdgh dhfmsqnfdkf")
-    //   formData.append("file",DataURIToBlob(result),DataURIToBlob(result).type.replace(/image\//g, "."));
-    // console.log(result)
-    // formData.append("file", result);
-    // });
-    // };
-
-    // getData()
-    // console.log("base64Blob = ", base64Blob)
-
-    // .then(a => {
-    // formData.append("file",DataURIToBlob(blob),DataURIToBlob(blob).type.replace(/image\//g, "."));
-    // })
-    // }
-    // else {
-    //  formData.append("file", DataURIToBlob(attachment), DataURIToBlob(attachment).type.replace(/image\//g, "."));
-    // }
-    // })
     const isBase64 = attachment.filter((e) => {
       return e.includes("base64");
     });

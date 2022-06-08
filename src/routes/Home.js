@@ -34,7 +34,7 @@ const Home = () => {
                   </h3>
                   <Link to="/auth">
                     Let's start{" "}
-                    <i className="banner-links-icons font-weight-normal fas fa-chevron-right"></i>
+                    {/*<i className="banner-links-icons font-weight-normal fas fa-chevron-right"></i>*/}
                   </Link>
                 </>
               ) : (

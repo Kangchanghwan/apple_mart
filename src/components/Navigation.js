@@ -11,6 +11,7 @@ import Mac from "./toggleGroup/Mac";
 import Watch from "./toggleGroup/Watch";
 import AirPods from "./toggleGroup/AirPods";
 import { useSelector } from "react-redux";
+import * as Icon from "../components/common/neighbor/Icon";
 
 const Navigation = ({ listState, list }) => {
   const { userObj } = useSelector(({ user }) => ({
@@ -154,10 +155,7 @@ const Navigation = ({ listState, list }) => {
           </ToggleButtonGroup>
           <NavItem className="nav-item-box">
             <Link to="/items" className="text-white nav-icon nav-link ">
-              <i
-                style={{ fontWeight: 100, color: "white" }}
-                className=" fa fa-search"
-              ></i>
+              <Icon.Search />
             </Link>
           </NavItem>
           <NavItem className="nav-item-box">
