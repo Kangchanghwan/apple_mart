@@ -43,13 +43,12 @@ function WriteSwiper({ carouselImg }) {
         ) : (
           <SwiperSlide
             style={{
-              backgroundColor: "#CCC",
-              fontSize: "2rem",
-              textAlign: "center",
-              lineHeight: "100vw",
+              background: `url(http://localhost:8080/api/image?path=applelogo.png)
+              center center/cover no-repeat`,
+                width: 500,
+                height: 500,
             }}
           >
-            NO IMAGE
           </SwiperSlide>
         )}
       </Swiper>

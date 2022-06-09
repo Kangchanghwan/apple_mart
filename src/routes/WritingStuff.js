@@ -44,12 +44,6 @@ const WritingStuff = ({ tags, tagsState }) => {
     history("/auth");
     return <p>로그인을 하지않은 상태입니다. 로그인을 해주세요.</p>;
   }
-  //
-  // if (region === "notMyNeighbor") {
-  //   alert("위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.");
-  //   history("/");
-  //   return <p>위치 정보가 등록되어있지 않습니다. 위치를 입력해주세요.</p>;
-  // }
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -75,13 +69,17 @@ const WritingStuff = ({ tags, tagsState }) => {
       setLoading(false);
       return alert("태그를 하나 이상 입력해 주세요");
     }
+
     setInputs({ title: "", price: "", contents: "" });
     setAttachment([]);
     setLoading(false);
+
     const formData = new FormData();
+
     function stringNumberToInt(stringNumber) {
       return parseInt(stringNumber.replace(/,/g, ""));
     }
+
     let postReqDto = {
       title: title,
       price: stringNumberToInt(price),
@@ -89,6 +87,7 @@ const WritingStuff = ({ tags, tagsState }) => {
       content: contents,
       town: region,
     };
+
     attachment.forEach((attachment) =>
       formData.append(
         "file",
@@ -110,6 +109,7 @@ const WritingStuff = ({ tags, tagsState }) => {
 
       return new Blob([ia], { type: mimeString });
     }
+
     formData.append(
       "postReqDto",
       new Blob([JSON.stringify(postReqDto)], { type: "application/json" })

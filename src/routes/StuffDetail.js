@@ -59,22 +59,6 @@ function StuffDetail() {
   const [stuff, setStuff] = useState({ data: stuffs[0] });
   const history = useNavigate();
   const { search } = useLocation();
-  // const query = queryString.parse(search);
-  // const { no } = query;
-
-  //  useCallList();
-
-  // const toggleNav = () => {
-  //   const scrollValue = window.scrollY;
-  //   const userData = detailHead.current?.offsetTop;
-  //   if (scrollValue >= userData) setTrigger(true);
-  //   else setTrigger(false);
-  // };
-  //
-  // const scrollTrigger = () => {
-  //   window.addEventListener("scroll", toggleNav);
-  //   return () => window.removeEventListener("scroll", toggleNav);
-  // };
 
   useEffect(() => {
     setLoading(true);
@@ -82,7 +66,6 @@ function StuffDetail() {
       .get("/items/" + param.id)
       .then((result) => {
         const resultObj = result.data.data;
-        console.log(resultObj.tags);
         setStuff((prevState) => ({
           ...prevState,
           data: {

@@ -33,11 +33,13 @@ const EditingStuff = () => {
   const { userObj } = useSelector(({ user }) => ({
     userObj: user.currentUser,
   }));
+  const location = useLocation();
+  const state = location.state;
+
   function intToStringNumber(intNumber) {
     return intNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  const location = useLocation();
-  const state = location.state;
+
   const [inputs, setInputs] = useState({
     title: state.title,
     price: state.price === null ? 0 : intToStringNumber(state.price),
@@ -59,13 +61,6 @@ const EditingStuff = () => {
   const [addr, setAddr] = useState([]);
 
   const selecAddr = useSelector(({ neighbor: { address } }) => address);
-  useEffect(() => {
-    console.log(attachment);
-    const isBase64 = attachment.filter((e) => {
-      return e.includes("base64");
-    });
-    console.log(isBase64);
-  }, [attachment]);
 
   const geolocation = getLocation();
   if (userObj.uid === undefined) {
@@ -92,10 +87,13 @@ const EditingStuff = () => {
     setInputs({ title: "", price: "", contents: "" });
     setAttachment([]);
     setLoading(false);
+
     const formData = new FormData();
+
     function stringNumberToInt(stringNumber) {
       return parseInt(stringNumber.replace(/,/g, ""));
     }
+
     let postUpdateReqDto = {
       title: title,
       price: stringNumberToInt(price),
@@ -103,12 +101,15 @@ const EditingStuff = () => {
       content: contents,
       town: region,
     };
+
     const isBase64 = attachment.filter((e) => {
       return e.includes("base64");
     });
+
     const links = attachment.filter((e) => {
       return !e.includes("base64");
     });
+
     isBase64.forEach((attachment) =>
         formData.append(
             "file",
@@ -116,6 +117,7 @@ const EditingStuff = () => {
             DataURIToBlob(attachment).type.replace(/image\//g, ".")
         )
     );
+
     function DataURIToBlob(dataURI) {
       const splitDataURI = String(dataURI).split(",");
       const byteString =
@@ -130,14 +132,17 @@ const EditingStuff = () => {
 
       return new Blob([ia], { type: mimeString });
     }
-    formData.append(
-      "postUpdateReqDto",
-      new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
-    );
+
     formData.append(
         "link",
         new Blob([JSON.stringify(links)], { type: "application/json" })
     );
+
+    formData.append(
+      "postUpdateReqDto",
+      new Blob([JSON.stringify(postUpdateReqDto)], { type: "application/json" })
+    );
+
     axios
         .put("/item/" + state.id, formData, {
           headers: {
