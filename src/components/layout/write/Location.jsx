@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Circles } from "react-loader-spinner";
+import {add} from "react-modal/lib/helpers/classList";
 
 const LocationWrap = styled.div`
   text-align: end;
@@ -18,10 +19,9 @@ const LocationImg = styled.img`
 
 const Location = ({ selecAddr, addr, isEdit, region }) => {
   const filterFunc = (addr) => {
-    const regex = /...[동읍면리]/g;
-    const region = regex.exec(addr);
+    const region = addr.split(' ');
     if (addr === "notMyNeigbor") return null;
-    return region;
+    return region[region.length -1];
   };
   return (
     <LocationWrap>
